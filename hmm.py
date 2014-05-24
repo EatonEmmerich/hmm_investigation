@@ -208,6 +208,9 @@ def viterbi(signal, trans, dists):
     trans : (K+2,K+2) ndarray
         Transition matrix to use for calculating the state sequence, including 
         non-emitting states
+	defined as [[0 to 0, 1 to 0, 2 to 0]
+		    [0 to 1, 1 to 1, 2 to 1]
+		    [0 to 2, 1 to 2, 2 to 2]]
     dists : (K,) list
         list of DensityFunc objects. 'K' is the number of emitting states. 
         
@@ -244,14 +247,104 @@ def viterbi(signal, trans, dists):
     nlltable[0, 0] = 0
     for state in xrange(1, S):
         nlltable[state, 0] = float("inf")
-    emissionNLLs = np.array([[s.negloglik(x) for s in dists] for x in np.hsplit(signal, signal.shape[1])])
-    
+    emissionNLLs = np.array([[s.negloglik(x) for s in dists] for x in np.hsplit(signal, n)]) # Shape = (K+2,n)
+    #what is emmisionNLLs?
+    #maybe:  (signal index)
+#   (states)  (negloglik)
+    emissionNLLs = emissionNLLs.T
+    ##^^##
     # Insert Viterbi code here
+    probMatrix = np.zeros((S,n+2))
+    nlltrans = -1*np.log(trans)
+    print "K+2: %d,imax" %S
+    print "n: %d,xmax" %n
+    print "EMMISIONNLLS:"
+    print np.shape(emissionNLLs)
+    print emissionNLLs
+#    print emissionNLLs+++===>>>>
+    print "ProbMatrix:"
+    print np.shape(probMatrix)
+    print "nlltrans"
+    print np.shape(nlltrans)
+    print nlltrans
+    probMatrix[0:,0:n] = nlltable[:,0:n]
+    for x in range (n+1):
+	if (x == 0):
+	    for i in range (S-1):
+		if (i < np.shape(emissionNLLs)[0]):
+		    probMatrix[i+1,x+1] = emissionNLLs[i,x]+nlltrans[0,i+1]
+		else:
+		    probMatrix[i+1,x+1] = 0+nlltrans[0,i+1]
+		backtable[i+1,x+1] = 0
+	    #also do for i=0 and i = S
+	elif (x > 0 and x < n):
+	    for i in range (S-1):
+		probVector = []
+		if (i < np.shape(emissionNLLs)[0]):
+		    for j in range (S-1):
+			probVector.append(probMatrix[j+1,x]+nlltrans[j+1,i+1])
+		    probMatrix[i+1,x+1] = emissionNLLs[i,x]+np.min(probVector)
+		    backtable[i+1,x+1] = (np.argmin(probVector)+1)
+		else:
+		    for j in range (S-1):
+                        probVector.append(probMatrix[j+1,x]+nlltrans[j+1,i+1])
+                    probMatrix[i+1,x+1] = 0+np.min(probVector)
+                    backtable[i+1,x+1] = (np.argmin(probVector)+1)
+
+	    #also do for i=0 and i = S
+	    #I don't know whats going on anymore
+	    #I thaught I knew a few lines of code ago
+	else:
+	    for i in range (S-1):
+		probVector = []
+	        for j in range (S-1):
+		    probVector.append(probMatrix[j+1,x] + nlltrans[j+1,i+1])
+		probMatrix[i+1,x+1] = 0 + np.min(probVector)
+		backtable[i+1,x+1] = np.argmin(probVector)+1
+		    
+
+    """My code not working presently:
+    for x in range (n+2):
+	if (x <1):
+	    for i in range (S):
+		if (i >= 1 and i < S-1):
+		    probMatrix[x,i] = emissionNLLs[x,i-1]+nlltrans[0,i]
+		    backtable[i,x] = i
+		else:
+		    probMatrix[x,i] = 1+nlltrans[0,i]
+		    backtable[i,x] = i
+	if (x >=1 and x<n+1):
+	    for i in range (S):
+		probVector = []
+		if (i >= 1 and i< S-1):
+		    for j in range (0,S):
+#			print "i: %d" %i
+#			print "x: %d" %x
+			probVector.append(probMatrix[x-1,j]+nlltrans[j,i])
+    		    probMatrix[x,i] = emissionNLLs[x,i-1]+np.min(probVector)
+		    print np.argmin(probVector)
+		    print probVector
+		    backtable[i,x] = np.argmin(probVector)
+		else:
+		    for j in range (0,S):
+			probVector.append(probMatrix[x-1,j]+nlltrans[j,i])
+		    probMatrix[x,i] = 1+np.min(probVector)
+		    backtable[i,x] = np.argmin(probVector)
+	else:
+	    print"""
     
+    print "probmatrix"
+    print probMatrix
+    nlltable[:,:] = probMatrix
+    #
+    ##VV##
     vals = np.zeros(n, dtype="int")
     vals[n-1] = backtable[S-1, n+1]
     for i in xrange(n-2, -1, -1):
         vals[i] = backtable[vals[i+1], i+2]
+    print "nlltable"
+    print nlltable
+    print backtable
     return vals, nlltable[S-1, n+1]
 
 def calcstates(signals, trans, dists):
@@ -611,7 +704,7 @@ def hmm(data, lengths, trans, init=lrinit, diagcov=False, maxiters=20, rtol=1e-4
         # Insert EM code here to calculate the transition matrix: 'trans', 
         # the state densities: 'dists', 
         # and the negative log-likelihood: 'newNLL'
-        
+        print
         
     if iters >= maxiters:
         warn("Maximum number of iterations reached - HMM parameters may not have converged")
