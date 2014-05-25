@@ -290,7 +290,7 @@ def viterbi(signal, trans, dists):
                         probVector.append(probMatrix[j+1,x]+nlltrans[j+1,i+1])
                     probMatrix[i+1,x+1] = 0+np.min(probVector)
                     backtable[i+1,x+1] = (np.argmin(probVector)+1)
-		print np.min(probVector)
+#		print np.min(probVector)
 
 	    #also do for i=0 and i = S
 	    #I don't know whats going on anymore
@@ -334,8 +334,8 @@ def viterbi(signal, trans, dists):
 	else:
 	    print"""
     
-    print "probmatrix"
-    print probMatrix
+    #print "probmatrix"
+    #print probMatrix
     nlltable[:,:] = probMatrix
     #
     ##VV##
@@ -343,9 +343,9 @@ def viterbi(signal, trans, dists):
     vals[n-1] = backtable[S-1, n+1]
     for i in xrange(n-2, -1, -1):
         vals[i] = backtable[vals[i+1], i+2]
-    print "nlltable"
-    print nlltable
-    print backtable
+    #print "nlltable"
+    #print nlltable
+    #print backtable
     return vals, nlltable[S-1, n+1]
 
 def calcstates(signals, trans, dists):
@@ -706,9 +706,12 @@ def hmm(data, lengths, trans, init=lrinit, diagcov=False, maxiters=20, rtol=1e-4
 		nums = updatenums(states)
 		means = updatemeans(states, nums, data)
 		covs = updatecovs(states, means, nums, data, diagcov)
-		dists = [Gaussian(mean=means[:,i], cov=covs[i]) for i in xrange(covs.shape[0])]
+		try:
+			dists = [Gaussian(mean=means[:,i], cov=covs[i]) for i in xrange(covs.shape[0])]
+		except e:
+			converged = True
 		oldstates, trans, oldNLL = calcstates(signals, trans, dists)
-		if(np.abs(np.abs(oldNLL)-np.abs(newNLL)) < 1e-9):
+		if(np.abs(np.abs(oldNLL)-np.abs(newNLL)) < rtol):
 			converged = True
 		newNLL = oldNLL
 		iters = iters +1

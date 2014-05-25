@@ -80,7 +80,7 @@ class Gaussian(object):
         self._cov = cov
         self._covdet = np.linalg.det(2.0*np.pi*cov)
         
-        if self._covdet < 10e-24:
+        if self._covdet < 10e-12:
             raise ValueError('The covariance matrix is singular.')
         
             
