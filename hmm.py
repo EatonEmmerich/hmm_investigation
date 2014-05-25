@@ -256,17 +256,17 @@ def viterbi(signal, trans, dists):
     # Insert Viterbi code here
     probMatrix = np.zeros((S,n+2))
     nlltrans = -1*np.log(trans)
-    print "K+2: %d,imax" %S
-    print "n: %d,xmax" %n
-    print "EMMISIONNLLS:"
-    print np.shape(emissionNLLs)
-    print emissionNLLs
+#    print "K+2: %d,imax" %S
+#    print "n: %d,xmax" %n
+#    print "EMMISIONNLLS:"
+#    print np.shape(emissionNLLs)
+#    print emissionNLLs
 #    print emissionNLLs+++===>>>>
-    print "ProbMatrix:"
-    print np.shape(probMatrix)
-    print "nlltrans"
-    print np.shape(nlltrans)
-    print nlltrans
+#    print "ProbMatrix:"
+#    print np.shape(probMatrix)
+#    print "nlltrans"
+#    print np.shape(nlltrans)
+#    print nlltrans
     probMatrix[0:,0:n] = nlltable[:,0:n]
     for x in range (n+1):
 	if (x == 0):
@@ -290,6 +290,7 @@ def viterbi(signal, trans, dists):
                         probVector.append(probMatrix[j+1,x]+nlltrans[j+1,i+1])
                     probMatrix[i+1,x+1] = 0+np.min(probVector)
                     backtable[i+1,x+1] = (np.argmin(probVector)+1)
+		print np.min(probVector)
 
 	    #also do for i=0 and i = S
 	    #I don't know whats going on anymore
@@ -697,14 +698,23 @@ def hmm(data, lengths, trans, init=lrinit, diagcov=False, maxiters=20, rtol=1e-4
     
     
     dists = [Gaussian(mean=means[:,i], cov=covs[i]) for i in xrange(covs.shape[0])]
-    oldstates, trans, oldNLL = calcstates(signals, trans, dists)
+    oldstates, trans, newNLL = calcstates(signals, trans, dists)
     converged = False
     iters = 0
     while not converged and iters <  maxiters:
-        # Insert EM code here to calculate the transition matrix: 'trans', 
-        # the state densities: 'dists', 
+		
+		nums = updatenums(states)
+		means = updatemeans(states, nums, data)
+		covs = updatecovs(states, means, nums, data, diagcov)
+		dists = [Gaussian(mean=means[:,i], cov=covs[i]) for i in xrange(covs.shape[0])]
+		oldstates, trans, oldNLL = calcstates(signals, trans, dists)
+		if(np.abs(np.abs(oldNLL)-np.abs(newNLL)) < 1e-9):
+			converged = True
+		newNLL = oldNLL
+		iters = iters +1
+        # Insert EM code here to calculate the transition matrix: 'trans',
+        # the state densities: 'dists',
         # and the negative log-likelihood: 'newNLL'
-        print
         
     if iters >= maxiters:
         warn("Maximum number of iterations reached - HMM parameters may not have converged")
