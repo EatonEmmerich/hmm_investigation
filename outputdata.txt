@@ -1,0 +1,278 @@
+Full Covariance Matrix
+/home/student/16579070/RW315/Assignment 5/hmm.py:258: RuntimeWarning: divide by zero encountered in log
+  nlltrans = -1*np.log(trans)
+    0  1  2  3  4
+ 0 11  1  0  0  0
+ 1  0 11  0  0  1
+ 2  0  0 11  0  1
+ 3  0  0  0 12  0
+ 4  0  3  0  0  9
+completed for k = 1
+    0  1  2  3  4
+ 0 12  0  0  0  0
+ 1  0 12  0  0  0
+ 2  0  0 11  0  1
+ 3  1  0  0 11  0
+ 4  0  0  0  0 12
+completed for k = 2
+    0  1  2  3  4
+ 0 12  0  0  0  0
+ 1  0 12  0  0  0
+ 2  0  0 11  0  1
+ 3  0  0  0 12  0
+ 4  0  5  0  0  7
+completed for k = 3
+    0  1  2  3  4
+ 0 12  0  0  0  0
+ 1  7  0  0  0  5
+ 2  0  0 11  0  1
+ 3  1  0  0 11  0
+ 4  0  0  0  0 12
+completed for k = 4
+    0  1  2  3  4
+ 0 12  0  0  0  0
+ 1  0 12  0  0  0
+ 2  0  0 10  0  2
+ 3  0  0  0 12  0
+ 4  0  0  0  0 12
+completed for k = 5
+    0  1  2  3  4
+ 0 12  0  0  0  0
+ 1  1 10  0  0  1
+ 2  0  0 12  0  0
+ 3  0  0  0 12  0
+ 4  0  0  0  0 12
+completed for k = 6
+Diagonal Covariance Matrix
+    0  1  2  3  4
+ 0 11  1  0  0  0
+ 1  0 11  0  0  1
+ 2  0  0 11  0  1
+ 3  0  0  0 12  0
+ 4  0  3  0  0  9
+completed for k = 1
+    0  1  2  3  4
+ 0 12  0  0  0  0
+ 1  0 12  0  0  0
+ 2  0  0 11  0  1
+ 3  1  0  0 11  0
+ 4  0  0  0  0 12
+completed for k = 2
+    0  1  2  3  4
+ 0 12  0  0  0  0
+ 1  0 12  0  0  0
+ 2  0  0 11  0  1
+ 3  0  0  0 12  0
+ 4  0  5  0  0  7
+completed for k = 3
+    0  1  2  3  4
+ 0  7  4  0  1  0
+ 1  0  6  0  0  6
+ 2  0  0 11  0  1
+ 3  0  0  0 12  0
+ 4  0  5  0  0  7
+completed for k = 4
+    0  1  2  3  4
+ 0 12  0  0  0  0
+ 1  0 12  0  0  0
+ 2  0  1 11  0  0
+ 3  0  0  0 12  0
+ 4  0  0  0  0 12
+completed for k = 5
+    0  1  2  3  4
+ 0 12  0  0  0  0
+ 1  2  7  0  0  3
+ 2  0  0 12  0  0
+ 3  0  0  0 12  0
+ 4  0  0  0  0 12
+completed for k = 6
+----------------------------------------------------------------------------------------------------
+zero encountered in log
+  nlltrans = -1*np.log(trans)
+Test Confusion Matrix
+   AY OW EY OY AW
+AY 21  9  0  3  1
+OW  3  9  0  6  6
+EY 10  1 21  0  1
+OY  1  2  0  4  0
+AW  1  3  0  1  3
+Train Confusion Matrix
+   AY OW EY OY AW
+AY 30  3  0  2  0
+OW  1 36  0  1  0
+EY  1  0 38  0  0
+OY  0  0  0 18  2
+AW  0  2  0  0 18
+1
+Test Confusion Matrix
+   AY OW EY OY AW
+AY 26  7  0  1  0
+OW  4 14  0  1  5
+EY  6  1 24  2  0
+OY  1  2  0  4  0
+AW  0  5  0  1  2
+Train Confusion Matrix
+   AY OW EY OY AW
+AY 33  1  0  1  0
+OW  1 36  0  1  0
+EY  0  0 39  0  0
+OY  0  0  0 20  0
+AW  0  2  0  0 18
+2
+Test Confusion Matrix
+   AY OW EY OY AW
+AY 27  6  0  1  0
+OW  2 21  0  0  1
+EY  7  1 25  0  0
+OY  2  2  0  3  0
+AW  2  4  1  0  1
+Train Confusion Matrix
+   AY OW EY OY AW
+AY 35  0  0  0  0
+OW  0 37  0  1  0
+EY  0  0 39  0  0
+OY  0  0  0 20  0
+AW  0  0  0  0 20
+3
+Test Confusion Matrix
+   AY OW EY OY AW
+AY 28  5  0  1  0
+OW  2 21  0  0  1
+EY  7  2 24  0  0
+OY  2  3  0  2  0
+AW  2  5  1  0  0
+Train Confusion Matrix
+   AY OW EY OY AW
+AY 35  0  0  0  0
+OW  0 38  0  0  0
+EY  0  0 39  0  0
+OY  0  0  0 20  0
+AW  0  0  0  0 20
+4
+Test Confusion Matrix
+   AY OW EY OY AW
+AY 30  4  0  0  0
+OW  2 22  0  0  0
+EY  5  2 26  0  0
+OY  2  3  0  2  0
+AW  1  6  1  0  0
+Train Confusion Matrix
+   AY OW EY OY AW
+AY 35  0  0  0  0
+OW  0 38  0  0  0
+EY  0  0 39  0  0
+OY  0  0  0 20  0
+AW  0  0  0  0 20
+5
+Test Confusion Matrix
+   AY OW EY OY AW
+AY 30  4  0  0  0
+OW  3 19  1  0  1
+EY  6  1 26  0  0
+OY  3  3  0  1  0
+AW  3  4  1  0  0
+Train Confusion Matrix
+   AY OW EY OY AW
+AY 35  0  0  0  0
+OW  0 38  0  0  0
+EY  0  0 39  0  0
+OY  0  0  0 20  0
+AW  0  0  0  0 20
+6
+Diagonal Covariance Matrix
+
+Test Confusion Matrix
+   AY OW EY OY AW
+AY 15  2  8  2  7
+OW  3  8  7  1  5
+EY 10  2 17  2  2
+OY  3  1  1  1  1
+AW  0  2  2  1  3
+Train Confusion Matrix
+   AY OW EY OY AW
+AY 15  6  5  5  4
+OW  4 14  5  5 10
+EY  6  2 27  2  2
+OY  3  3  0  9  5
+AW  0  5  3  3  9
+1
+
+Test Confusion Matrix
+   AY OW EY OY AW
+AY 22  1  4  5  2
+OW  1 11  4  3  5
+EY  4  2 24  0  3
+OY  2  0  0  5  0
+AW  1  3  0  0  4
+Train Confusion Matrix
+   AY OW EY OY AW
+AY 26  3  1  2  3
+OW  0 28  3  5  2
+EY  3  0 33  1  2
+OY  1  1  0 17  1
+AW  2  2  0  4 12
+2
+
+Test Confusion Matrix
+   AY OW EY OY AW
+AY 23  3  2  5  1
+OW  0 11  5  3  5
+EY  3  3 24  1  2
+OY  3  0  1  3  0
+AW  0  3  1  0  4
+Train Confusion Matrix
+   AY OW EY OY AW
+AY 29  2  0  3  1
+OW  0 29  2  4  3
+EY  3  1 32  1  2
+OY  1  1  0 17  1
+AW  0  7  0  1 12
+3
+
+Test Confusion Matrix
+   AY OW EY OY AW
+AY 17  3  3  7  4
+OW  1 11  4  3  5
+EY  5  3 22  0  3
+OY  3  0  0  4  0
+AW  0  2  1  0  5
+Train Confusion Matrix
+   AY OW EY OY AW
+AY 29  2  0  2  2
+OW  2 30  3  0  3
+EY  2  1 35  0  1
+OY  1  1  0 18  0
+AW  1  3  0  1 15
+4
+
+Test Confusion Matrix
+   AY OW EY OY AW
+AY 22  2  2  7  1
+OW  0 14  3  2  5
+EY  3  4 24  1  1
+OY  4  0  0  3  0
+AW  0  3  2  0  3
+Train Confusion Matrix
+   AY OW EY OY AW
+AY 32  1  0  1  1
+OW  1 33  2  2  0
+EY  0  0 37  0  2
+OY  1  0  0 18  1
+AW  1  4  0  0 15
+5
+
+Test Confusion Matrix
+   AY OW EY OY AW
+AY 17  3  3  9  2
+OW  1 12  4  2  5
+EY  4  6 21  0  2
+OY  3  0  0  4  0
+AW  0  3  0  0  5
+Train Confusion Matrix
+   AY OW EY OY AW
+AY 31  1  1  1  1
+OW  0 34  2  1  1
+EY  1  2 35  0  1
+OY  0  0  0 20  0
+AW  0  4  0  1 15
+6
