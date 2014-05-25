@@ -1,6 +1,7 @@
 import numpy as np
 import pickle
 import hmm
+import utils
 
 def normalize(tstack,trstack):
 	"""
@@ -61,24 +62,31 @@ testdataStack,traindataStack = normalize(testdataStack, traindataStack)
 #llist = getlistoflengths(traindataStack[0])
 #print llist
 MarkovModel = []
-for k in range (2,4):
+for k in range (1,7):
+	MarkovModel = []
 	for a in traindataStack:
 		trans = hmm.lrtrans(k)
 		llist = getlistoflengths(a)
 		MarkovModel.append(hmm.hmm(np.column_stack(a),llist,trans))
 	print np.shape(testdataStack)
-	print np.shape(testdataStack[0][0])
-	classifiedtests = []
+#	print np.shape(testdataStack[0][0])
+	TestClassification = []
+	OriginalClassification = []
 	for a in range (np.shape(testdataStack)[0]):
 		llist = getlistoflengths(testdataStack[a])
+		classifiedtests = []
+		origtests = []
 		for b in range (len(llist)):
+			#origtests.append(keyList[a])
 			temp = np.array([testdataStack[a][b]])
-			print np.shape(temp)
+#			print np.shape(temp)
 			templistlen = []
 			for c in range (len(keyList)):
 				templistlen.append(hmm.negloglik(temp,trans = MarkovModel[c][0],dists = MarkovModel[c][1]))
-			classifiedtests.append(keyList[(np.argmin(templistlen))])
-		print classifiedtests
+			#lassifiedtests.append(keyList[(np.argmin(templistlen))])
+			TestClassification.append(keyList[(np.argmin(templistlen))])
+			OriginalClassification.append(keyList[a])
+	utils.confusion(OriginalClassification,TestClassification)
 	print k
 #for i in range (2,4):
 #	print MarkovModel[i]
