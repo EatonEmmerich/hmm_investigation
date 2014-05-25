@@ -69,7 +69,7 @@ for k in range (1,7):
 		trans = hmm.lrtrans(k)
 		llist = getlistoflengths(a)
 		MarkovModel.append(hmm.hmm(np.column_stack(a),llist,trans,diagcov = diagcov))
-	print np.shape(testdataStack)
+#	print np.shape(testdataStack)
 #	print np.shape(testdataStack[0][0])
 	TestClassification = []
 	OriginalTestClassification = []
@@ -110,7 +110,7 @@ for k in range (1,7):
 		trans = hmm.lrtrans(k)
 		llist = getlistoflengths(a)
 		MarkovModel.append(hmm.hmm(np.column_stack(a),llist,trans,diagcov = diagcov))
-	print np.shape(testdataStack)
+#	print np.shape(testdataStack)
 #	print np.shape(testdataStack[0][0])
 	TestClassification = []
 	OriginalTestClassification = []
