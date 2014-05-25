@@ -61,17 +61,20 @@ testdataStack,traindataStack = normalize(testdataStack, traindataStack)
 #print np.shape(testdataStack[0][0])[1]
 #llist = getlistoflengths(traindataStack[0])
 #print llist
-MarkovModel = []
+diagcov = False
+print "Full Covariance Matrix"
 for k in range (1,7):
 	MarkovModel = []
 	for a in traindataStack:
 		trans = hmm.lrtrans(k)
 		llist = getlistoflengths(a)
-		MarkovModel.append(hmm.hmm(np.column_stack(a),llist,trans))
+		MarkovModel.append(hmm.hmm(np.column_stack(a),llist,trans,diagcov = diagcov))
 	print np.shape(testdataStack)
 #	print np.shape(testdataStack[0][0])
 	TestClassification = []
-	OriginalClassification = []
+	OriginalTestClassification = []
+	TrainClassification = []
+	OriginalTrainClassification = []
 	for a in range (np.shape(testdataStack)[0]):
 		llist = getlistoflengths(testdataStack[a])
 		classifiedtests = []
@@ -85,8 +88,58 @@ for k in range (1,7):
 				templistlen.append(hmm.negloglik(temp,trans = MarkovModel[c][0],dists = MarkovModel[c][1]))
 			#lassifiedtests.append(keyList[(np.argmin(templistlen))])
 			TestClassification.append(keyList[(np.argmin(templistlen))])
-			OriginalClassification.append(keyList[a])
-	utils.confusion(OriginalClassification,TestClassification)
+			OriginalTestClassification.append(keyList[a])
+		llist = getlistoflengths(traindataStack[a])
+		for b in range (len(llist)):
+			temp = np.array([traindataStack[a][b]])
+			templistlen = []
+			for c in range (len(keyList)):
+				templistlen.append(hmm.negloglik(temp,trans = MarkovModel[c][0],dists = MarkovModel[c][1]))
+			TrainClassification.append(keyList[(np.argmin(templistlen))])
+			OriginalTrainClassification.append(keyList[a])
+	print "Test Confusion Matrix"
+	utils.confusion(OriginalTestClassification,TestClassification)
+	print "Train Confusion Matrix"
+	utils.confusion(OriginalTrainClassification,TrainClassification)
 	print k
-#for i in range (2,4):
-#	print MarkovModel[i]
+diagcov = True
+print "Diagonal Covariance Matrix"
+for k in range (1,7):
+	MarkovModel = []
+	for a in traindataStack:
+		trans = hmm.lrtrans(k)
+		llist = getlistoflengths(a)
+		MarkovModel.append(hmm.hmm(np.column_stack(a),llist,trans,diagcov = diagcov))
+	print np.shape(testdataStack)
+#	print np.shape(testdataStack[0][0])
+	TestClassification = []
+	OriginalTestClassification = []
+	TrainClassification = []
+	OriginalTrainClassification = []
+	for a in range (np.shape(testdataStack)[0]):
+		llist = getlistoflengths(testdataStack[a])
+		classifiedtests = []
+		origtests = []
+		for b in range (len(llist)):
+			#origtests.append(keyList[a])
+			temp = np.array([testdataStack[a][b]])
+#			print np.shape(temp)
+			templistlen = []
+			for c in range (len(keyList)):
+				templistlen.append(hmm.negloglik(temp,trans = MarkovModel[c][0],dists = MarkovModel[c][1]))
+			#lassifiedtests.append(keyList[(np.argmin(templistlen))])
+			TestClassification.append(keyList[(np.argmin(templistlen))])
+			OriginalTestClassification.append(keyList[a])
+		llist = getlistoflengths(traindataStack[a])
+		for b in range (len(llist)):
+			temp = np.array([traindataStack[a][b]])
+			templistlen = []
+			for c in range (len(keyList)):
+				templistlen.append(hmm.negloglik(temp,trans = MarkovModel[c][0],dists = MarkovModel[c][1]))
+			TrainClassification.append(keyList[(np.argmin(templistlen))])
+			OriginalTrainClassification.append(keyList[a])
+	print "Test Confusion Matrix"
+	utils.confusion(OriginalTestClassification,TestClassification)
+	print "Train Confusion Matrix"
+	utils.confusion(OriginalTrainClassification,TrainClassification)
+	print k
